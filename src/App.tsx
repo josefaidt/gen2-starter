@@ -1,5 +1,7 @@
 import type { Schema } from "../amplify/data/resource"
 import { useEffect, useState } from "react"
+import { Authenticator } from "@aws-amplify/ui-react"
+import "@aws-amplify/ui-react/styles.css"
 import { generateClient } from "aws-amplify/data"
 
 const client = generateClient<Schema>()
@@ -22,23 +24,28 @@ function App() {
   }
 
   return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
-            {todo.content}
-            <button onClick={() => deleteTodo(todo.id)}>delete</button>
-          </li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="#">Review next step of this tutorial.</a>
-      </div>
-    </main>
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <h1>My todos</h1>
+          <button onClick={createTodo}>+ new</button>
+          <ul>
+            {todos.map((todo) => (
+              <li key={todo.id}>
+                {todo.content}
+                <button onClick={() => deleteTodo(todo.id)}>delete</button>
+              </li>
+            ))}
+          </ul>
+          <div>
+            🥳 App successfully hosted. Try creating a new todo.
+            <br />
+            <a href="#">Review next step of this tutorial.</a>
+          </div>
+          <button onClick={signOut}>Sign out</button>
+        </main>
+      )}
+    </Authenticator>
   )
 }
 
