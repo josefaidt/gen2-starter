@@ -1,20 +1,22 @@
-import { type ClientSchema, a, defineData } from '@aws-amplify/backend';
+import { type ClientSchema, a, defineData } from "@aws-amplify/backend"
 
 const schema = a.schema({
-  Todo: a.model({
-    content: a.string(),
-  }).authorization([a.allow.public()]),
-});
+  Todo: a
+    .model({
+      content: a.string(),
+    })
+    .authorization([a.allow.owner()]),
+})
 
-export type Schema = ClientSchema<typeof schema>;
+export type Schema = ClientSchema<typeof schema>
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'apiKey',
+    defaultAuthorizationMode: "userPool",
     // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
+    // apiKeyAuthorizationMode: {
+    //   expiresInDays: 30,
+    // },
   },
-});
+})
