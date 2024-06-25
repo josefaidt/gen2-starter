@@ -1,12 +1,27 @@
-import { type ClientSchema, a, defineData } from "@aws-amplify/backend"
+import {
+  type ClientSchema,
+  a,
+  defineData,
+  defineFunction,
+} from "@aws-amplify/backend"
 
-const schema = a.schema({
-  Todo: a
-    .model({
-      content: a.string(),
-    })
-    .authorization((allow) => [allow.owner()]),
+const tryThis = defineFunction({
+  name: "say-hello",
+  entry: "../function/say-hello/handler.ts",
 })
+
+const schema = a
+  .schema({
+    Todo: a
+      .model({
+        content: a.string(),
+      })
+      .authorization((allow) => [
+        allow.owner(),
+        // allow.custom("function").to(["read"]),
+      ]),
+  })
+  .authorization((allow) => [allow.resource(tryThis).to(["query"])])
 
 export type Schema = ClientSchema<typeof schema>
 
