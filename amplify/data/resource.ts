@@ -6,7 +6,7 @@ import {
 } from "@aws-amplify/backend"
 
 const tryThis = defineFunction({
-  name: "say-hello",
+  name: "say-hello2",
   entry: "../function/say-hello/handler.ts",
 })
 
