@@ -5,7 +5,7 @@ const schema = a.schema({
     .model({
       content: a.string(),
     })
-    .authorization([a.allow.owner()]),
+    .authorization((allow) => [allow.owner()]),
 })
 
 export type Schema = ClientSchema<typeof schema>
